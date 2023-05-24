@@ -17,17 +17,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Cache Ruby Gems
+        uses: actions/cache@v2
         with:
-          ruby-version: 3.1
-      - name: Show Ruby version
-        run : |
-          ruby -v
-      # - name: Install dependencies
-      #   run: |
-      #     bundle install
-      # - name: Run tests
-      #   run: |
-      #     bundle exec rake test
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install dependencies
+        run: apt-get -yqq install libpq-dev
+
+      - name: Run bundle install
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
     
