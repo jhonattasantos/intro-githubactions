@@ -6,7 +6,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     container: 
-      image: ruby:3.1
+      image: ruby:3.0.2
     services:
       postgres:
         image: postgres:latest
