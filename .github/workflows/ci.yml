@@ -2,6 +2,11 @@ name: ci
 run-name: ${{ github.actor}} is learning GitHub Actions
 on: [push]
 
+env:
+  RAILS_ENV: test
+  RACK_ENV: test
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
+
 jobs:
   ci:
     runs-on: ubuntu-latest
